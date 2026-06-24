@@ -486,24 +486,24 @@ const initialVouchers: Voucher[] = [
   {
     id: 1,
     title: "Voucher Movie Night",
-    shortDesc: "Nonton film pilihan Bunda sepuasnya ditemani camilan favorit.",
-    longDesc: "Bunda berhak memilih film apa saja untuk ditonton bersama malam ini tanpa interupsi, dan Papa akan menyiapkan jajanan pendamping bioskop pilihan Bunda.",
+    shortDesc: "Nonton film pilihan Istri sepuasnya ditemani camilan favorit.",
+    longDesc: "Istri berhak memilih film apa saja untuk ditonton bersama malam ini tanpa interupsi, dan Suami akan menyiapkan jajanan pendamping bioskop pilihan Istri.",
     rules: [
       "Jagoan kecil harus sudah tidur nyenyak terlebih dahulu.",
-      "Papa bertindak sebagai 'pelayan bioskop' pribadi (menyiapkan minuman & cemilan).",
-      "Bebas pilih film genre apa saja (termasuk drakor/romance kesukaan Bunda)."
+      "Suami bertindak sebagai 'pelayan bioskop' pribadi (menyiapkan minuman & cemilan).",
+      "Bebas pilih film genre apa saja (termasuk drakor/romance kesukaan Istri)."
     ],
-    reward: "Camilan & film ditanggung Papa",
+    reward: "Camilan & film ditanggung Suami",
   },
   {
     id: 2,
     title: "Voucher Mystery Date",
-    shortDesc: "Kencan rahasia spesial yang direncanakan 100% oleh Papa.",
-    longDesc: "Satu hari kencan penuh kejutan di mana destinasi kuliner, aktivitas, dan rute perjalanan sepenuhnya dirancang rahasia oleh Papa.",
+    shortDesc: "Kencan rahasia spesial yang direncanakan 100% oleh Suami.",
+    longDesc: "Satu hari kencan penuh kejutan di mana destinasi kuliner, aktivitas, dan rute perjalanan sepenuhnya dirancang rahasia oleh Suami.",
     rules: [
-      "Bunda tidak boleh bertanya ke mana tujuannya sampai tiba di lokasi.",
-      "Klaim H-3 agar Papa memiliki waktu untuk mempersiapkan reservasi & rute.",
-      "Dress code ditentukan oleh Papa demi keselarasan suasana kencan."
+      "Istri tidak boleh bertanya ke mana tujuannya sampai tiba di lokasi.",
+      "Klaim H-3 agar Suami memiliki waktu untuk mempersiapkan reservasi & rute.",
+      "Dress code ditentukan oleh Suami demi keselarasan suasana kencan."
     ],
     reward: "Klaim H-3 sebelum pergi",
   },
@@ -511,13 +511,13 @@ const initialVouchers: Voucher[] = [
     id: 3,
     title: "Voucher Dream Day",
     shortDesc: "Satu hari penuh bebas tugas rumah tangga & mengasuh anak.",
-    longDesc: "Satu hari istimewa di mana Bunda dibebaskan sepenuhnya dari rutinitas harian untuk me-time atau beristirahat. Papa akan mengambil alih seluruh tugas.",
+    longDesc: "Satu hari istimewa di mana Istri dibebaskan sepenuhnya dari rutinitas harian untuk me-time atau beristirahat. Suami akan mengambil alih seluruh tugas.",
     rules: [
-      "Seluruh tugas domestik (masak, cuci piring, bersih-bersih) di-takeover Papa.",
-      "Mengasuh & menemani bermain jagoan kecil sepenuhnya diurus Papa.",
-      "Bunda berhak menolak segala permintaan bantuan domestik di hari itu."
+      "Seluruh tugas domestik (masak, cuci piring, bersih-bersih) di-takeover Suami.",
+      "Mengasuh & menemani bermain jagoan kecil sepenuhnya diurus Suami.",
+      "Istri berhak menolak segala permintaan bantuan domestik di hari itu."
     ],
-    reward: "Klaim H-1 untuk persiapan Papa",
+    reward: "Klaim H-1 untuk persiapan Suami",
   },
 ];
 
@@ -763,7 +763,7 @@ function FinalSurprise() {
               transition={{ delay: 0.8, duration: 1 }}
               className="mt-6 font-[var(--font-hand)] text-2xl text-ink/85 md:text-3xl"
             >
-              Selamat Ulang Tahun, Bunda.
+              Selamat Ulang Tahun, Istriku.
               <br />
               Selamat Ulang Tahun, Sayangku.
             </motion.p>
@@ -795,10 +795,10 @@ function FinalSurprise() {
               className="mt-16 w-full flex flex-col items-center"
             >
               <h3 className="font-[var(--font-script)] text-3xl text-wax md:text-4xl mb-2">
-                Kado Spesial Untuk Bunda
+                Kado Spesial Untuk Istriku
               </h3>
               <p className="font-[var(--font-hand)] text-lg text-ink/75 max-w-md mb-8">
-                Tiga voucher istimewa yang bisa Bunda klaim dan gunakan kapan saja Bunda mau.
+                Tiga voucher istimewa yang bisa Istriku klaim dan gunakan kapan saja Istriku mau.
               </p>
               
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full px-4 justify-items-center">
