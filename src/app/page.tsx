@@ -797,9 +797,21 @@ function FinalSurprise() {
               <h3 className="font-[var(--font-script)] text-3xl text-wax md:text-4xl mb-2">
                 Kado Spesial Untuk Istriku
               </h3>
-              <p className="font-[var(--font-hand)] text-lg text-ink/75 max-w-md mb-8">
+              <p className="font-[var(--font-hand)] text-lg text-ink/75 max-w-md mb-6">
                 Tiga voucher istimewa yang bisa Istriku klaim dan gunakan kapan saja Istriku mau.
               </p>
+
+              {/* Rules / Terms Note */}
+              <div className="max-w-md mx-auto mb-8 p-4 rounded-xl border border-amber-900/15 bg-cream/60 backdrop-blur-sm shadow-sm text-left flex gap-3">
+                <Heart className="h-5 w-5 fill-wax/20 text-wax shrink-0 mt-0.5" />
+                <div className="font-[var(--font-hand)] text-base text-ink/80 leading-relaxed">
+                  <strong className="text-wax">Syarat & Ketentuan Klaim:</strong>
+                  <ul className="list-disc pl-4 mt-1 space-y-1">
+                    <li>Maksimal klaim <strong>1 voucher per bulan</strong>.</li>
+                    <li>Syarat mutlak: sudah <strong>sholat shubuh tepat waktu</strong> atau minimal tidak kesiangan.</li>
+                  </ul>
+                </div>
+              </div>
               
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full px-4 justify-items-center">
                 {initialVouchers.map((voucher) => (
