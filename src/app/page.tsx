@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion, useScroll, useTransform } from "motion/react";
-import { Heart, Music, VolumeX, Gift, X } from "lucide-react";
+import { Heart, Music, VolumeX, Gift, X, Ticket } from "lucide-react";
 
 import photo1 from "@/assets/1.jpg";
 import photo2 from "@/assets/2.jpg";
@@ -473,8 +473,238 @@ function Lightbox({ memory, onClose }: { memory: Memory; onClose: () => void }) 
 
 /* ----------------------------- Final Surprise --------------------------- */
 
+type Voucher = {
+  id: number;
+  title: string;
+  shortDesc: string;
+  longDesc: string;
+  rules: string[];
+  reward: string;
+};
+
+const initialVouchers: Voucher[] = [
+  {
+    id: 1,
+    title: "Voucher Movie Night",
+    shortDesc: "Nonton film pilihan Bunda sepuasnya ditemani camilan favorit.",
+    longDesc: "Bunda berhak memilih film apa saja untuk ditonton bersama malam ini tanpa interupsi, dan Papa akan menyiapkan jajanan pendamping bioskop pilihan Bunda.",
+    rules: [
+      "Jagoan kecil harus sudah tidur nyenyak terlebih dahulu.",
+      "Papa bertindak sebagai 'pelayan bioskop' pribadi (menyiapkan minuman & cemilan).",
+      "Bebas pilih film genre apa saja (termasuk drakor/romance kesukaan Bunda)."
+    ],
+    reward: "Camilan & film ditanggung Papa",
+  },
+  {
+    id: 2,
+    title: "Voucher Mystery Date",
+    shortDesc: "Kencan rahasia spesial yang direncanakan 100% oleh Papa.",
+    longDesc: "Satu hari kencan penuh kejutan di mana destinasi kuliner, aktivitas, dan rute perjalanan sepenuhnya dirancang rahasia oleh Papa.",
+    rules: [
+      "Bunda tidak boleh bertanya ke mana tujuannya sampai tiba di lokasi.",
+      "Klaim H-3 agar Papa memiliki waktu untuk mempersiapkan reservasi & rute.",
+      "Dress code ditentukan oleh Papa demi keselarasan suasana kencan."
+    ],
+    reward: "Klaim H-3 sebelum pergi",
+  },
+  {
+    id: 3,
+    title: "Voucher Dream Day",
+    shortDesc: "Satu hari penuh bebas tugas rumah tangga & mengasuh anak.",
+    longDesc: "Satu hari istimewa di mana Bunda dibebaskan sepenuhnya dari rutinitas harian untuk me-time atau beristirahat. Papa akan mengambil alih seluruh tugas.",
+    rules: [
+      "Seluruh tugas domestik (masak, cuci piring, bersih-bersih) di-takeover Papa.",
+      "Mengasuh & menemani bermain jagoan kecil sepenuhnya diurus Papa.",
+      "Bunda berhak menolak segala permintaan bantuan domestik di hari itu."
+    ],
+    reward: "Klaim H-1 untuk persiapan Papa",
+  },
+];
+
+function VoucherCard({
+  voucher,
+  isClaimed,
+  onClickDetail,
+}: {
+  voucher: Voucher;
+  isClaimed: boolean;
+  onClickDetail: () => void;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      whileHover={{ y: -5, scale: 1.02 }}
+      onClick={onClickDetail}
+      className={`relative flex flex-col justify-between w-full max-w-sm rounded-2xl border border-amber-900/10 p-6 cursor-pointer ${
+        isClaimed ? "bg-cream/40 opacity-75 select-none" : "bg-cream"
+      } shadow-lg transition-all duration-300 overflow-hidden`}
+    >
+      {/* Decorative punched holes on left/right edges */}
+      <div className="absolute -left-3 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-[rgba(235,190,140,0.85)] border-r border-amber-900/10 z-10" />
+      <div className="absolute -right-3 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-[rgba(235,190,140,0.85)] border-l border-amber-900/10 z-10" />
+
+      {/* Dashed line inside the card */}
+      <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 border-t border-dashed border-amber-900/20 z-0 pointer-events-none" />
+
+      {/* Top half */}
+      <div className="relative z-10 pb-6 flex flex-col justify-start text-left">
+        <div className="flex items-center gap-2 text-wax">
+          <Ticket className="h-5 w-5" />
+          <span className="font-semibold text-xs tracking-wider uppercase">Gift Voucher</span>
+        </div>
+        <h3 className="mt-2 font-[var(--font-script)] text-2xl text-wax font-bold leading-tight">
+          {voucher.title}
+        </h3>
+        <p className="mt-2 font-[var(--font-hand)] text-lg text-ink/80 leading-snug">
+          {voucher.shortDesc}
+        </p>
+      </div>
+
+      {/* Bottom half */}
+      <div className="relative z-10 pt-6 flex items-center justify-between border-t border-amber-900/5">
+        <span className="text-[11px] font-semibold tracking-wider text-ink/50 uppercase">
+          {voucher.reward}
+        </span>
+
+        {isClaimed ? (
+          <motion.div
+            initial={{ scale: 0, rotate: -45 }}
+            animate={{ scale: 1, rotate: -15 }}
+            transition={{ type: "spring", stiffness: 200, damping: 10 }}
+            className="flex h-14 w-14 items-center justify-center rounded-full bg-red-700/85 text-cream border border-red-900/30 shadow-md font-[var(--font-script)] text-sm font-bold uppercase tracking-wider"
+            style={{ textShadow: "1px 1px 2px rgba(0,0,0,0.3)" }}
+          >
+            Claimed
+          </motion.div>
+        ) : (
+          <span className="px-4 py-1.5 rounded-full bg-wax text-cream font-[var(--font-hand)] text-base shadow hover:bg-wax/90 transition-colors z-20">
+            Detail
+          </span>
+        )}
+      </div>
+    </motion.div>
+  );
+}
+
+function VoucherModal({
+  voucher,
+  isClaimed,
+  onClaim,
+  onClose,
+}: {
+  voucher: Voucher;
+  isClaimed: boolean;
+  onClaim: () => void;
+  onClose: () => void;
+}) {
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose]);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-ink/75 p-6 backdrop-blur-sm"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+    >
+      <motion.div
+        initial={{ scale: 0.9, y: 20 }}
+        animate={{ scale: 1, y: 0 }}
+        exit={{ scale: 0.95, y: 10 }}
+        transition={{ type: "spring", duration: 0.5 }}
+        onClick={(e) => e.stopPropagation()}
+        className="bg-cream border border-amber-900/10 rounded-2xl p-8 max-w-md w-full relative shadow-2xl overflow-hidden"
+      >
+        {/* Decorative elements */}
+        <div className="absolute -left-3 top-1/3 w-6 h-6 rounded-full bg-ink/75" />
+        <div className="absolute -right-3 top-1/3 w-6 h-6 rounded-full bg-ink/75" />
+        
+        {/* Close Button */}
+        <button
+          aria-label="Tutup"
+          className="absolute right-4 top-4 rounded-full bg-cream hover:bg-cream/80 p-2 text-ink/70 transition-colors shadow-sm cursor-pointer"
+          onClick={onClose}
+        >
+          <X className="h-5 w-5" />
+        </button>
+
+        <div className="flex items-center gap-2 text-wax mb-3">
+          <Ticket className="h-5 w-5" />
+          <span className="font-semibold text-xs tracking-wider uppercase">Voucher Detail</span>
+        </div>
+
+        <h3 className="font-[var(--font-script)] text-3xl text-wax font-bold leading-tight text-left">
+          {voucher.title}
+        </h3>
+
+        <div className="mt-4 border-t border-amber-900/5 pt-4 text-left">
+          <p className="font-[var(--font-hand)] text-xl text-ink/90 leading-relaxed">
+            {voucher.longDesc}
+          </p>
+        </div>
+
+        {/* Rules */}
+        <div className="mt-6 text-left">
+          <h4 className="text-xs font-bold uppercase tracking-wider text-ink/50 mb-3">Aturan & Detail:</h4>
+          <ul className="space-y-2">
+            {voucher.rules.map((rule, idx) => (
+              <li key={idx} className="flex items-start gap-2.5 font-[var(--font-hand)] text-lg text-ink/80">
+                <Heart className="h-4.5 w-4.5 fill-wax/20 text-wax shrink-0 mt-1" />
+                <span>{rule}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Claim / Status Button */}
+        <div className="mt-8 pt-6 border-t border-amber-900/5 flex flex-col items-center gap-2">
+          {isClaimed ? (
+            <div className="flex flex-col items-center gap-2">
+              <motion.div
+                initial={{ scale: 0, rotate: -45 }}
+                animate={{ scale: 1, rotate: -8 }}
+                className="flex h-16 w-16 items-center justify-center rounded-full bg-red-700 text-cream border border-red-900/30 shadow-md font-[var(--font-script)] text-base font-bold uppercase tracking-wider"
+                style={{ textShadow: "1px 1px 2px rgba(0,0,0,0.3)" }}
+              >
+                Claimed
+              </motion.div>
+              <span className="text-xs font-medium text-ink/40">Voucher ini sudah terpakai</span>
+            </div>
+          ) : (
+            <motion.button
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.96 }}
+              onClick={() => {
+                onClaim();
+              }}
+              className="w-full py-3 rounded-xl bg-wax text-cream font-[var(--font-hand)] text-xl shadow-md hover:bg-wax/90 transition-colors cursor-pointer"
+            >
+              Klaim Voucher Ini
+            </motion.button>
+          )}
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
 function FinalSurprise() {
   const [revealed, setRevealed] = useState(false);
+  const [claimedVouchers, setClaimedVouchers] = useState<Record<number, boolean>>({});
+  const [selectedVoucher, setSelectedVoucher] = useState<Voucher | null>(null);
+
+  const handleClaim = (id: number) => {
+    setClaimedVouchers((prev) => ({ ...prev, [id]: true }));
+  };
+
   return (
     <section className="relative flex min-h-screen flex-col items-center justify-center px-6 py-24">
       <AnimatePresence mode="wait">
@@ -556,7 +786,45 @@ function FinalSurprise() {
                 Seluruh dunia kita — bersama selamanya.
               </figcaption>
             </motion.figure>
+
+            {/* Special Vouchers Section */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.8, duration: 1 }}
+              className="mt-16 w-full flex flex-col items-center"
+            >
+              <h3 className="font-[var(--font-script)] text-3xl text-wax md:text-4xl mb-2">
+                Kado Spesial Untuk Bunda
+              </h3>
+              <p className="font-[var(--font-hand)] text-lg text-ink/75 max-w-md mb-8">
+                Tiga voucher istimewa yang bisa Bunda klaim dan gunakan kapan saja Bunda mau.
+              </p>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full px-4 justify-items-center">
+                {initialVouchers.map((voucher) => (
+                  <VoucherCard
+                    key={voucher.id}
+                    voucher={voucher}
+                    isClaimed={!!claimedVouchers[voucher.id]}
+                    onClickDetail={() => setSelectedVoucher(voucher)}
+                  />
+                ))}
+              </div>
+            </motion.div>
           </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Voucher Modal */}
+      <AnimatePresence>
+        {selectedVoucher && (
+          <VoucherModal
+            voucher={selectedVoucher}
+            isClaimed={!!claimedVouchers[selectedVoucher.id]}
+            onClaim={() => handleClaim(selectedVoucher.id)}
+            onClose={() => setSelectedVoucher(null)}
+          />
         )}
       </AnimatePresence>
     </section>
